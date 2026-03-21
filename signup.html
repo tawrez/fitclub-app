@@ -20,15 +20,15 @@
       --fit-gold-strong: rgba(212, 175, 55, 0.97);
       --fit-border: #e5e5e5;
       --fit-radius-pill: 999px;
-      --fit-shadow: 0 18px 45px rgba(0, 0, 0, 0.35);
-      --fit-transition: 0.25s ease-out;
+      --fit-shadow: 0 18px 45px rgba(0, 0, 0, 0.32);
+      --fit-transition: 0.24s ease-out;
     }
 
     body {
       min-height: 100vh;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
         sans-serif;
-      background: var(--fit-bg);
+      background: radial-gradient(circle at top, #fdf9ee, #fdfdfd);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -55,139 +55,27 @@
       border-radius: 28px;
       overflow: hidden;
       box-shadow: var(--fit-shadow);
-      background: #000;
-      color: #fff;
-      display: grid;
-      grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
-    }
-
-    /* LEFT side - same vibe as onboarding */
-
-    .media {
-      position: relative;
-      overflow: hidden;
-      background: #000;
-    }
-
-    .media-bg {
-      position: absolute;
-      inset: 0;
-      background-image: url("https://images.pexels.com/photos/3837781/pexels-photo-3837781.jpeg?auto=compress&cs=tinysrgb&w=1600");
-      background-size: cover;
-      background-position: center;
-      transform: scale(1.03);
-    }
-
-    .media-overlay-layer {
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(circle at top left, rgba(0, 0, 0, 0.2), transparent 55%),
-        linear-gradient(
-          145deg,
-          rgba(0, 0, 0, 0.75),
-          rgba(0, 0, 0, 0.15),
-          rgba(0, 0, 0, 0.9)
-        );
-      mix-blend-mode: multiply;
-    }
-
-    .media-content {
-      position: relative;
-      z-index: 1;
-      height: 100%;
-      padding: 22px 22px 24px 22px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 12px;
-      border-radius: var(--fit-radius-pill);
-      background: rgba(0, 0, 0, 0.75);
-      color: #f8f8f8;
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.18em;
-      border: 1px solid rgba(255, 255, 255, 0.18);
-    }
-
-    .badge-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 999px;
-      background: var(--fit-gold);
-      box-shadow: 0 0 14px rgba(212, 175, 55, 0.9);
-    }
-
-    .media-title {
-      margin-top: 16px;
-      max-width: 280px;
-    }
-
-    .media-title h1 {
-      font-size: 26px;
-      line-height: 1.2;
-    }
-
-    .media-title span {
-      color: var(--fit-gold);
-    }
-
-    .media-title p {
-      margin-top: 6px;
-      font-size: 13px;
-      color: rgba(255, 255, 255, 0.8);
-    }
-
-    .media-footer {
-      font-size: 11px;
-      color: rgba(255, 255, 255, 0.8);
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .media-footer strong {
-      color: var(--fit-gold);
-      font-weight: 600;
-    }
-
-    .media-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 10px;
-    }
-
-    .media-tag {
-      font-size: 11px;
-      padding: 4px 10px;
-      border-radius: var(--fit-radius-pill);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      background: rgba(0, 0, 0, 0.55);
-    }
-
-    /* RIGHT side - auth card */
-
-    .content {
-      position: relative;
       background: #ffffff;
-      color: #111111;
-      padding: 18px 20px 18px 20px;
-      display: flex;
-      flex-direction: column;
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
     }
 
-    .content-header {
+    /* LEFT: brand copy */
+
+    .left {
+      padding: 28px 26px 26px 26px;
+      border-right: 1px solid #f0f0f0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: radial-gradient(circle at top left, #fdf4d9, #ffffff);
+    }
+
+    .brand-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 12px;
+      margin-bottom: 20px;
     }
 
     .logo {
@@ -197,9 +85,9 @@
     }
 
     .logo-mark {
-      width: 32px;
-      height: 32px;
-      border-radius: 12px;
+      width: 36px;
+      height: 36px;
+      border-radius: 14px;
       background: #111111;
       position: relative;
       display: flex;
@@ -211,12 +99,12 @@
       content: "";
       position: absolute;
       inset: 4px;
-      border-radius: 10px;
+      border-radius: 12px;
       border: 2px solid var(--fit-gold);
     }
 
     .logo-mark span {
-      font-size: 16px;
+      font-size: 17px;
       font-weight: 700;
       color: var(--fit-gold);
     }
@@ -240,31 +128,95 @@
       letter-spacing: 0.18em;
     }
 
-    .back-link {
+    .back-btn {
+      border-radius: var(--fit-radius-pill);
+      border: 1px solid #111111;
+      padding: 7px 14px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      background: transparent;
+      color: #111111;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: background var(--fit-transition), color var(--fit-transition),
+        transform var(--fit-transition), box-shadow var(--fit-transition),
+        border-color var(--fit-transition);
+    }
+
+    .back-btn span.icon {
+      font-size: 13px;
+    }
+
+    .back-btn:hover {
+      background: #111111;
+      color: #ffffff;
+      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.18);
+      transform: translateY(-1px);
+    }
+
+    .hero-text h1 {
+      font-size: 26px;
+      line-height: 1.2;
+      margin-bottom: 6px;
+    }
+
+    .hero-text h1 span {
+      color: var(--fit-gold);
+    }
+
+    .hero-text p {
+      font-size: 13px;
+      color: var(--fit-muted);
+      max-width: 320px;
+    }
+
+    .hero-points {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 13px;
+      color: #222222;
+    }
+
+    .hero-points span.bullet {
+      font-weight: 600;
+      color: var(--fit-gold);
+    }
+
+    .hero-footer {
+      margin-top: 20px;
       font-size: 11px;
       color: var(--fit-muted);
     }
 
-    .back-link a {
+    .hero-footer span {
       color: var(--fit-gold);
-      text-decoration: none;
+      font-weight: 600;
     }
 
-    .back-link a:hover {
-      text-decoration: underline;
+    /* RIGHT: auth */
+
+    .right {
+      padding: 22px 22px 20px 22px;
+      display: flex;
+      flex-direction: column;
     }
 
     .tabs {
-      margin-top: 10px;
       display: inline-flex;
-      background: #f4f4f4;
+      background: #f5f5f5;
       border-radius: var(--fit-radius-pill);
-      padding: 3px;
-      border: 1px solid #e4e4e4;
+      padding: 4px;
+      border: 1px solid #e3e3e3;
+      align-self: flex-start;
     }
 
     .tab-btn {
-      padding: 7px 18px;
+      padding: 8px 20px;
       border-radius: var(--fit-radius-pill);
       font-size: 12px;
       text-transform: uppercase;
@@ -279,15 +231,13 @@
     .tab-btn.active {
       background: #111111;
       color: #ffffff;
-      box-shadow: 0 12px 26px rgba(0, 0, 0, 0.25);
+      box-shadow: 0 12px 26px rgba(0, 0, 0, 0.22);
       transform: translateY(-1px);
     }
 
-    .auth-body {
+    .auth-header {
       margin-top: 16px;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
+      margin-bottom: 12px;
     }
 
     .auth-title {
@@ -298,7 +248,6 @@
     .auth-subtitle {
       font-size: 13px;
       color: var(--fit-muted);
-      margin-bottom: 12px;
     }
 
     .auth-subtitle span {
@@ -307,8 +256,9 @@
     }
 
     .forms-wrapper {
-      position: relative;
       flex: 1;
+      display: flex;
+      flex-direction: column;
     }
 
     form {
@@ -337,14 +287,9 @@
       background: #ffffff;
       display: flex;
       align-items: center;
-      gap: 8px;
       transition: border-color var(--fit-transition),
         box-shadow var(--fit-transition), transform var(--fit-transition),
         background var(--fit-transition);
-    }
-
-    .field-input span.icon {
-      font-size: 14px;
     }
 
     .field-input input {
@@ -370,9 +315,9 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      margin-top: 2px;
       font-size: 11px;
       color: var(--fit-muted);
-      margin-top: 2px;
     }
 
     .link {
@@ -414,6 +359,60 @@
       border-color: #111111;
     }
 
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      color: var(--fit-muted);
+      margin: 12px 0 10px 0;
+    }
+
+    .divider-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(
+        to right,
+        transparent,
+        rgba(0, 0, 0, 0.16),
+        transparent
+      );
+    }
+
+    .google-btn {
+      border-radius: var(--fit-radius-pill);
+      border: 1px solid #dadce0;
+      background: #ffffff;
+      padding: 9px 12px;
+      font-size: 12px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #3c4043;
+      min-width: 0;
+      justify-content: center;
+      transition: box-shadow var(--fit-transition),
+        transform var(--fit-transition), background var(--fit-transition);
+    }
+
+    .google-icon {
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+      background:
+        linear-gradient(45deg, #ea4335, #ea4335) 0 0/50% 50% no-repeat,
+        linear-gradient(135deg, #4285f4, #4285f4) 100% 0/50% 50% no-repeat,
+        linear-gradient(225deg, #34a853, #34a853) 100% 100%/50% 50% no-repeat,
+        linear-gradient(315deg, #fbbc05, #fbbc05) 0 100%/50% 50% no-repeat;
+    }
+
+    .google-btn:hover {
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+      transform: translateY(-1px);
+      background: #ffffff;
+    }
+
     .hint {
       margin-top: 8px;
       font-size: 10px;
@@ -423,10 +422,6 @@
     .hint span {
       color: var(--fit-gold);
       font-weight: 600;
-    }
-
-    .hidden {
-      display: none !important;
     }
 
     .error {
@@ -440,22 +435,27 @@
       display: block;
     }
 
+    .hidden {
+      display: none !important;
+    }
+
     /* Responsive */
 
     @media (max-width: 880px) {
       .shell {
         grid-template-columns: minmax(0, 1fr);
-        height: 100vh;
+        height: auto;
         max-height: none;
       }
 
-      .media {
-        height: 32vh;
-        min-height: 220px;
+      .left {
+        border-right: none;
+        border-bottom: 1px solid #f0f0f0;
+        padding: 20px 18px 18px 18px;
       }
 
-      .content {
-        padding: 16px 14px 18px 14px;
+      .right {
+        padding: 18px 18px 18px 18px;
       }
     }
 
@@ -466,182 +466,178 @@
 
       .shell {
         border-radius: 0;
-        max-height: none;
-      }
-
-      .media {
-        height: 35vh;
-        min-height: 230px;
+        box-shadow: none;
       }
     }
   </style>
 </head>
 <body>
   <main class="shell">
-    <!-- LEFT side -->
-    <section class="media">
-      <div class="media-bg"></div>
-      <div class="media-overlay-layer"></div>
-      <div class="media-content">
-        <div>
-          <div class="badge">
-            <div class="badge-dot"></div>
-            <span>FitClub</span>
-            <span>Sign up in minutes</span>
+    <!-- LEFT copy -->
+    <section class="left">
+      <div>
+        <div class="brand-row">
+          <div class="logo">
+            <div class="logo-mark"><span>F</span></div>
+            <div class="logo-text">
+              <strong>FitClub</strong>
+              <span>Gym management</span>
+            </div>
           </div>
-          <div class="media-title">
-            <h1>Join the <span>smart gym</span> experience.</h1>
-            <p>Members renew, refer and track visits from the app while your staff focuses on training.</p>
-          </div>
+          <button type="button" class="back-btn" id="back-btn">
+            <span class="icon">⟵</span>
+            <span>Back</span>
+          </button>
         </div>
 
-        <div class="media-footer">
-          <div>Perfect for <strong>gym owners & members</strong> who want less friction and more training.</div>
-          <div class="media-tags">
-            <div class="media-tag">Quick onboarding</div>
-            <div class="media-tag">Secure login</div>
-            <div class="media-tag">Any device</div>
-          </div>
+        <div class="hero-text">
+          <h1>Sign in to your <span>smart gym</span>.</h1>
+          <p>
+            Create your FitClub account or login to manage memberships, renewals and
+            check‑ins from one place.
+          </p>
         </div>
+
+        <div class="hero-points">
+          <div><span class="bullet">•</span> Members renew online — no more manual follow‑ups.</div>
+          <div><span class="bullet">•</span> Owners track earnings daily, weekly and monthly.</div>
+          <div><span class="bullet">•</span> Built for both gym owners and members.</div>
+        </div>
+      </div>
+
+      <div class="hero-footer">
+        Start now and <span>set up your gym in under a minute</span>.
       </div>
     </section>
 
-    <!-- RIGHT side -->
-    <section class="content">
-      <header class="content-header">
-        <div class="logo">
-          <div class="logo-mark"><span>F</span></div>
-          <div class="logo-text">
-            <strong>FitClub</strong>
-            <span>Gym management</span>
-          </div>
-        </div>
-        <div class="back-link">
-          <a href="index.html">← Back to welcome</a>
-        </div>
-      </header>
-
+    <!-- RIGHT auth -->
+    <section class="right">
       <div class="tabs">
         <button type="button" class="tab-btn active" data-mode="signup">Sign up</button>
         <button type="button" class="tab-btn" data-mode="login">Login</button>
       </div>
 
-      <div class="auth-body">
+      <div class="auth-header">
         <h2 class="auth-title" id="auth-title">Create your FitClub account</h2>
         <p class="auth-subtitle" id="auth-subtitle">
-          Get started in under <span>60 seconds</span>. No card required.
+          Set up your account in <span>less than a minute</span>.
         </p>
+      </div>
 
-        <div class="forms-wrapper">
-          <!-- SIGNUP FORM -->
-          <form id="signup-form" autocomplete="on" novalidate>
-            <div class="field">
-              <label for="signup-name">Full name</label>
-              <div class="field-input">
-                <span class="icon">👤</span>
-                <input id="signup-name" name="name" type="text" placeholder="Jordan Smith" required />
-              </div>
+      <div class="forms-wrapper">
+        <!-- SIGNUP -->
+        <form id="signup-form" autocomplete="on" novalidate>
+          <div class="field">
+            <label for="signup-name">Full name</label>
+            <div class="field-input">
+              <input id="signup-name" name="name" type="text" placeholder="Jordan Smith" required />
             </div>
+          </div>
 
-            <div class="field">
-              <label for="signup-contact">Email / phone number</label>
-              <div class="field-input">
-                <span class="icon">📧</span>
-                <input
-                  id="signup-contact"
-                  name="contact"
-                  type="text"
-                  placeholder="you@gymowner.com or 98765 43210"
-                  required
-                />
-              </div>
+          <div class="field">
+            <label for="signup-contact">Email / phone number</label>
+            <div class="field-input">
+              <input
+                id="signup-contact"
+                name="contact"
+                type="text"
+                placeholder="you@gymowner.com or 98765 43210"
+                required
+              />
             </div>
+          </div>
 
-            <div class="field">
-              <label for="signup-password">Password</label>
-              <div class="field-input">
-                <span class="icon">🔒</span>
-                <input
-                  id="signup-password"
-                  name="password"
-                  type="password"
-                  placeholder="Create a strong password"
-                  required
-                  minlength="8"
-                />
-              </div>
+          <div class="field">
+            <label for="signup-password">Password</label>
+            <div class="field-input">
+              <input
+                id="signup-password"
+                name="password"
+                type="password"
+                placeholder="Create a strong password"
+                required
+                minlength="8"
+              />
             </div>
+          </div>
 
-            <div class="field">
-              <label for="signup-confirm">Confirm password</label>
-              <div class="field-input">
-                <span class="icon">✅</span>
-                <input
-                  id="signup-confirm"
-                  name="confirm"
-                  type="password"
-                  placeholder="Re‑enter password"
-                  required
-                  minlength="8"
-                />
-              </div>
+          <div class="field">
+            <label for="signup-confirm">Confirm password</label>
+            <div class="field-input">
+              <input
+                id="signup-confirm"
+                name="confirm"
+                type="password"
+                placeholder="Re‑enter password"
+                required
+                minlength="8"
+              />
             </div>
+          </div>
 
-            <p class="error" id="signup-error"></p>
+          <p class="error" id="signup-error"></p>
 
-            <button type="submit" class="primary-btn">
-              Sign up
-            </button>
+          <button type="submit" class="primary-btn">
+            Sign up
+          </button>
 
-            <p class="hint">
-              Already have an account? <span class="link" data-switch="login">Login</span>.
-            </p>
-          </form>
+          <div class="divider">
+            <div class="divider-line"></div>
+            <span>Or continue with</span>
+            <div class="divider-line"></div>
+          </div>
 
-          <!-- LOGIN FORM -->
-          <form id="login-form" class="hidden" autocomplete="on" novalidate>
-            <div class="field">
-              <label for="login-contact">Email / phone number</label>
-              <div class="field-input">
-                <span class="icon">📧</span>
-                <input
-                  id="login-contact"
-                  name="contact"
-                  type="text"
-                  placeholder="you@gymmember.com or 98765 43210"
-                  required
-                />
-              </div>
+          <button type="button" class="google-btn">
+            <span class="google-icon"></span>
+            <span>Continue with Google</span>
+          </button>
+
+          <p class="hint">
+            Already have an account? <span class="link" data-switch="login">Login</span>.
+          </p>
+        </form>
+
+        <!-- LOGIN -->
+        <form id="login-form" class="hidden" autocomplete="on" novalidate>
+          <div class="field">
+            <label for="login-contact">Email / phone number</label>
+            <div class="field-input">
+              <input
+                id="login-contact"
+                name="contact"
+                type="text"
+                placeholder="you@gymmember.com or 98765 43210"
+                required
+              />
             </div>
+          </div>
 
-            <div class="field">
-              <div class="field-row">
-                <label for="login-password">Password</label>
-                <a href="#" class="link">Forgot?</a>
-              </div>
-              <div class="field-input">
-                <span class="icon">🔒</span>
-                <input
-                  id="login-password"
-                  name="password"
-                  type="password"
-                  placeholder="Your password"
-                  required
-                />
-              </div>
+          <div class="field">
+            <div class="field-row">
+              <label for="login-password">Password</label>
+              <a href="#" class="link">Forgot?</a>
             </div>
+            <div class="field-input">
+              <input
+                id="login-password"
+                name="password"
+                type="password"
+                placeholder="Your password"
+                required
+              />
+            </div>
+          </div>
 
-            <p class="error" id="login-error"></p>
+          <p class="error" id="login-error"></p>
 
-            <button type="submit" class="primary-btn">
-              Login
-            </button>
+          <button type="submit" class="primary-btn">
+            Login
+          </button>
 
-            <p class="hint">
-              New here? <span class="link" data-switch="signup">Create account</span>.
-            </p>
-          </form>
-        </div>
+          <p class="hint">
+            New here? <span class="link" data-switch="signup">Create account</span>.
+          </p>
+        </form>
       </div>
     </section>
   </main>
@@ -655,6 +651,7 @@
     const signupError = document.getElementById("signup-error");
     const loginError = document.getElementById("login-error");
     const switchLinks = document.querySelectorAll("[data-switch]");
+    const backBtn = document.getElementById("back-btn");
 
     function setMode(mode) {
       tabs.forEach((tab) => {
@@ -670,7 +667,7 @@
       if (isSignup) {
         authTitle.textContent = "Create your FitClub account";
         authSubtitle.innerHTML =
-          "Get started in under <span>60 seconds</span>. No card required.";
+          "Set up your account in <span>less than a minute</span>.";
       } else {
         authTitle.textContent = "Welcome back to FitClub";
         authSubtitle.innerHTML =
@@ -687,6 +684,10 @@
         e.preventDefault();
         setMode(link.dataset.switch);
       });
+    });
+
+    backBtn.addEventListener("click", () => {
+      window.location.href = "index.html";
     });
 
     signupForm.addEventListener("submit", (e) => {
@@ -717,10 +718,7 @@
         return;
       }
 
-      // TODO: replace with real signup API call
       console.log("Signup payload:", { name, contact, password });
-      signupError.textContent = "";
-      signupError.classList.remove("visible");
     });
 
     loginForm.addEventListener("submit", (e) => {
@@ -737,10 +735,7 @@
         return;
       }
 
-      // TODO: replace with real login API call
       console.log("Login payload:", { contact, password });
-      loginError.textContent = "";
-      loginError.classList.remove("visible");
     });
 
     setMode("signup");
