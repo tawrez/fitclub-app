@@ -40,6 +40,7 @@
       border: none;
       -webkit-tap-highlight-color: transparent;
       background: none;
+      cursor: pointer;
     }
 
     button:focus {
@@ -388,7 +389,6 @@
       border: 1px solid #e1e1e1;
       background: #ffffff;
       font-size: 11px;
-      cursor: pointer;
       text-transform: uppercase;
       letter-spacing: 0.16em;
       color: var(--fit-muted);
@@ -411,7 +411,6 @@
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.18em;
-      cursor: pointer;
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -711,7 +710,8 @@
 
     function goNext() {
       if (currentIndex === totalSlides - 1) {
-        window.location.href = "signup.html";
+        // CHANGED: go to selectrole.html instead of signup.html
+        window.location.href = "selectrole.html";
         return;
       }
       goToSlide(currentIndex + 1);
