@@ -420,7 +420,7 @@
 
     <div class="bottom-row">
       Already have an account?
-      &nbsp;<a href="signup.html">Login</a>
+      &nbsp;<a href="signup.html?mode=login">Login</a>
     </div>
   </main>
 
@@ -434,9 +434,8 @@
 
     roleButtons.forEach((btn) => {
       btn.addEventListener("click", () => {
-        // For now both roles go to the same signup page.
-        // Later you can pass query params like ?role=member if needed.
-        window.location.href = "signup.html";
+        const role = btn.dataset.role; // "member" or "owner"
+        window.location.href = "signup.html?role=" + encodeURIComponent(role);
       });
     });
   </script>
