@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>FitClub • Sign up / Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    :root {
+      --fit-bg: #ffffff;
+      --fit-black: #111111;
+      --fit-muted: #555555;
+      --fit-gold: #d4af37;
+      --fit-gold-strong: rgba(212, 175, 55, 0.97);
+      --fit-border: #e5e5e5;
+      --fit-radius-pill: 999px;
+      --fit-shadow: 0 18px 45px rgba(0, 0, 0, 0.35);
+      --fit-transition: 0.25s ease-out;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background: var(--fit-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      color: var(--fit-black);
+    }
+
+    button, input {
+      outline: none;
+      border: none;
+      -webkit-tap-highlight-color: transparent;
+      font-family: inherit;
+    }
+
+    button:focus, input:focus {
+      outline: none;
+    }
+
+    .shell {
+      width: 100%;
+      max-width: 960px;
+      max-height: 640px;
+      height: 100vh;
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: var(--fit-shadow);
+      background: #000;
+      color: #fff;
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    }
+
+    /* LEFT side - same vibe as onboarding */
+
+    .media {
+      position: relative;
+      overflow: hidden;
+      background: #000;
+    }
+
+    .media-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url("https://images.pexels.com/photos/3837781/pexels-photo-3837781.jpeg?auto=compress&cs=tinysrgb&w=1600");
+      background-size: cover;
+      background-position: center;
+      transform: scale(1.03);
+    }
+
+    .media-overlay-layer {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at top left, rgba(0, 0, 0, 0.2), transparent 55%),
+        linear-gradient(
+          145deg,
+          rgba(0, 0, 0, 0.75),
+          rgba(0, 0, 0, 0.15),
+          rgba(0, 0, 0, 0.9)
+        );
+      mix-blend-mode: multiply;
+    }
+
+    .media-content {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      padding: 22px 22px 24px 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: var(--fit-radius-pill);
+      background: rgba(0, 0, 0, 0.75);
+      color: #f8f8f8;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--fit-gold);
+      box-shadow: 0 0 14px rgba(212, 175, 55, 0.9);
+    }
+
+    .media-title {
+      margin-top: 16px;
+      max-width: 280px;
+    }
+
+    .media-title h1 {
+      font-size: 26px;
+      line-height: 1.2;
+    }
+
+    .media-title span {
+      color: var(--fit-gold);
+    }
+
+    .media-title p {
+      margin-top: 6px;
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .media-footer {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.8);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .media-footer strong {
+      color: var(--fit-gold);
+      font-weight: 600;
+    }
+
+    .media-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .media-tag {
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: var(--fit-radius-pill);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(0, 0, 0, 0.55);
+    }
+
+    /* RIGHT side - auth card */
+
+    .content {
+      position: relative;
+      background: #ffffff;
+      color: #111111;
+      padding: 18px 20px 18px 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .content-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 12px;
+      background: #111111;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-mark::after {
+      content: "";
+      position: absolute;
+      inset: 4px;
+      border-radius: 10px;
+      border: 2px solid var(--fit-gold);
+    }
+
+    .logo-mark span {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--fit-gold);
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+    }
+
+    .logo-text strong {
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-size: 12px;
+    }
+
+    .logo-text span {
+      font-size: 11px;
+      color: var(--fit-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+    }
+
+    .back-link {
+      font-size: 11px;
+      color: var(--fit-muted);
+    }
+
+    .back-link a {
+      color: var(--fit-gold);
+      text-decoration: none;
+    }
+
+    .back-link a:hover {
+      text-decoration: underline;
+    }
+
+    .tabs {
+      margin-top: 10px;
+      display: inline-flex;
+      background: #f4f4f4;
+      border-radius: var(--fit-radius-pill);
+      padding: 3px;
+      border: 1px solid #e4e4e4;
+    }
+
+    .tab-btn {
+      padding: 7px 18px;
+      border-radius: var(--fit-radius-pill);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      cursor: pointer;
+      color: var(--fit-muted);
+      background: transparent;
+      transition: background var(--fit-transition), color var(--fit-transition),
+        box-shadow var(--fit-transition), transform var(--fit-transition);
+    }
+
+    .tab-btn.active {
+      background: #111111;
+      color: #ffffff;
+      box-shadow: 0 12px 26px rgba(0, 0, 0, 0.25);
+      transform: translateY(-1px);
+    }
+
+    .auth-body {
+      margin-top: 16px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .auth-title {
+      font-size: 20px;
+      margin-bottom: 4px;
+    }
+
+    .auth-subtitle {
+      font-size: 13px;
+      color: var(--fit-muted);
+      margin-bottom: 12px;
+    }
+
+    .auth-subtitle span {
+      color: var(--fit-gold);
+      font-weight: 600;
+    }
+
+    .forms-wrapper {
+      position: relative;
+      flex: 1;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--fit-muted);
+    }
+
+    .field-input {
+      border-radius: 12px;
+      border: 1px solid var(--fit-border);
+      padding: 9px 11px;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: border-color var(--fit-transition),
+        box-shadow var(--fit-transition), transform var(--fit-transition),
+        background var(--fit-transition);
+    }
+
+    .field-input span.icon {
+      font-size: 14px;
+    }
+
+    .field-input input {
+      width: 100%;
+      background: transparent;
+      border: none;
+      font-size: 13px;
+      color: #111111;
+    }
+
+    .field-input input::placeholder {
+      color: #999999;
+    }
+
+    .field-input:focus-within {
+      border-color: var(--fit-gold);
+      box-shadow: 0 0 0 1px rgba(212, 175, 55, 0.45);
+      transform: translateY(-1px);
+      background: #fffef7;
+    }
+
+    .field-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: var(--fit-muted);
+      margin-top: 2px;
+    }
+
+    .link {
+      color: var(--fit-gold);
+      text-decoration: none;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .link:hover {
+      text-decoration: underline;
+    }
+
+    .primary-btn {
+      margin-top: 10px;
+      border-radius: var(--fit-radius-pill);
+      padding: 10px 18px;
+      border: 1px solid #111111;
+      background: #111111;
+      color: #ffffff;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: background var(--fit-transition), color var(--fit-transition),
+        border-color var(--fit-transition), transform var(--fit-transition),
+        box-shadow var(--fit-transition);
+    }
+
+    .primary-btn:hover {
+      background: var(--fit-gold-strong);
+      color: #111111;
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.25);
+      transform: translateY(-1px);
+      border-color: #111111;
+    }
+
+    .hint {
+      margin-top: 8px;
+      font-size: 10px;
+      color: var(--fit-muted);
+    }
+
+    .hint span {
+      color: var(--fit-gold);
+      font-weight: 600;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .error {
+      margin-top: 4px;
+      font-size: 11px;
+      color: #c51f1f;
+      display: none;
+    }
+
+    .error.visible {
+      display: block;
+    }
+
+    /* Responsive */
+
+    @media (max-width: 880px) {
+      .shell {
+        grid-template-columns: minmax(0, 1fr);
+        height: 100vh;
+        max-height: none;
+      }
+
+      .media {
+        height: 32vh;
+        min-height: 220px;
+      }
+
+      .content {
+        padding: 16px 14px 18px 14px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 0;
+      }
+
+      .shell {
+        border-radius: 0;
+        max-height: none;
+      }
+
+      .media {
+        height: 35vh;
+        min-height: 230px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <!-- LEFT side -->
+    <section class="media">
+      <div class="media-bg"></div>
+      <div class="media-overlay-layer"></div>
+      <div class="media-content">
+        <div>
+          <div class="badge">
+            <div class="badge-dot"></div>
+            <span>FitClub</span>
+            <span>Sign up in minutes</span>
+          </div>
+          <div class="media-title">
+            <h1>Join the <span>smart gym</span> experience.</h1>
+            <p>Members renew, refer and track visits from the app while your staff focuses on training.</p>
+          </div>
+        </div>
+
+        <div class="media-footer">
+          <div>Perfect for <strong>gym owners & members</strong> who want less friction and more training.</div>
+          <div class="media-tags">
+            <div class="media-tag">Quick onboarding</div>
+            <div class="media-tag">Secure login</div>
+            <div class="media-tag">Any device</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RIGHT side -->
+    <section class="content">
+      <header class="content-header">
+        <div class="logo">
+          <div class="logo-mark"><span>F</span></div>
+          <div class="logo-text">
+            <strong>FitClub</strong>
+            <span>Gym management</span>
+          </div>
+        </div>
+        <div class="back-link">
+          <a href="index.html">← Back to welcome</a>
+        </div>
+      </header>
+
+      <div class="tabs">
+        <button type="button" class="tab-btn active" data-mode="signup">Sign up</button>
+        <button type="button" class="tab-btn" data-mode="login">Login</button>
+      </div>
+
+      <div class="auth-body">
+        <h2 class="auth-title" id="auth-title">Create your FitClub account</h2>
+        <p class="auth-subtitle" id="auth-subtitle">
+          Get started in under <span>60 seconds</span>. No card required.
+        </p>
+
+        <div class="forms-wrapper">
+          <!-- SIGNUP FORM -->
+          <form id="signup-form" autocomplete="on" novalidate>
+            <div class="field">
+              <label for="signup-name">Full name</label>
+              <div class="field-input">
+                <span class="icon">👤</span>
+                <input id="signup-name" name="name" type="text" placeholder="Jordan Smith" required />
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="signup-contact">Email / phone number</label>
+              <div class="field-input">
+                <span class="icon">📧</span>
+                <input
+                  id="signup-contact"
+                  name="contact"
+                  type="text"
+                  placeholder="you@gymowner.com or 98765 43210"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="signup-password">Password</label>
+              <div class="field-input">
+                <span class="icon">🔒</span>
+                <input
+                  id="signup-password"
+                  name="password"
+                  type="password"
+                  placeholder="Create a strong password"
+                  required
+                  minlength="8"
+                />
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="signup-confirm">Confirm password</label>
+              <div class="field-input">
+                <span class="icon">✅</span>
+                <input
+                  id="signup-confirm"
+                  name="confirm"
+                  type="password"
+                  placeholder="Re‑enter password"
+                  required
+                  minlength="8"
+                />
+              </div>
+            </div>
+
+            <p class="error" id="signup-error"></p>
+
+            <button type="submit" class="primary-btn">
+              Sign up
+            </button>
+
+            <p class="hint">
+              Already have an account? <span class="link" data-switch="login">Login</span>.
+            </p>
+          </form>
+
+          <!-- LOGIN FORM -->
+          <form id="login-form" class="hidden" autocomplete="on" novalidate>
+            <div class="field">
+              <label for="login-contact">Email / phone number</label>
+              <div class="field-input">
+                <span class="icon">📧</span>
+                <input
+                  id="login-contact"
+                  name="contact"
+                  type="text"
+                  placeholder="you@gymmember.com or 98765 43210"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="field">
+              <div class="field-row">
+                <label for="login-password">Password</label>
+                <a href="#" class="link">Forgot?</a>
+              </div>
+              <div class="field-input">
+                <span class="icon">🔒</span>
+                <input
+                  id="login-password"
+                  name="password"
+                  type="password"
+                  placeholder="Your password"
+                  required
+                />
+              </div>
+            </div>
+
+            <p class="error" id="login-error"></p>
+
+            <button type="submit" class="primary-btn">
+              Login
+            </button>
+
+            <p class="hint">
+              New here? <span class="link" data-switch="signup">Create account</span>.
+            </p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const tabs = document.querySelectorAll(".tab-btn");
+    const signupForm = document.getElementById("signup-form");
+    const loginForm = document.getElementById("login-form");
+    const authTitle = document.getElementById("auth-title");
+    const authSubtitle = document.getElementById("auth-subtitle");
+    const signupError = document.getElementById("signup-error");
+    const loginError = document.getElementById("login-error");
+    const switchLinks = document.querySelectorAll("[data-switch]");
+
+    function setMode(mode) {
+      tabs.forEach((tab) => {
+        tab.classList.toggle("active", tab.dataset.mode === mode);
+      });
+
+      const isSignup = mode === "signup";
+      signupForm.classList.toggle("hidden", !isSignup);
+      loginForm.classList.toggle("hidden", isSignup);
+      signupError.classList.remove("visible");
+      loginError.classList.remove("visible");
+
+      if (isSignup) {
+        authTitle.textContent = "Create your FitClub account";
+        authSubtitle.innerHTML =
+          "Get started in under <span>60 seconds</span>. No card required.";
+      } else {
+        authTitle.textContent = "Welcome back to FitClub";
+        authSubtitle.innerHTML =
+          "Login to manage your <span>memberships</span> and check‑ins.";
+      }
+    }
+
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => setMode(tab.dataset.mode));
+    });
+
+    switchLinks.forEach((link) => {
+      link.addEventListener("click", (e) => {
+        e.preventDefault();
+        setMode(link.dataset.switch);
+      });
+    });
+
+    signupForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      signupError.classList.remove("visible");
+      signupError.textContent = "";
+
+      const name = signupForm.name.value.trim();
+      const contact = signupForm.contact.value.trim();
+      const password = signupForm.password.value.trim();
+      const confirm = signupForm.confirm.value.trim();
+
+      if (!name || !contact || !password || !confirm) {
+        signupError.textContent = "Please fill all fields.";
+        signupError.classList.add("visible");
+        return;
+      }
+
+      if (password.length < 8) {
+        signupError.textContent = "Password must be at least 8 characters.";
+        signupError.classList.add("visible");
+        return;
+      }
+
+      if (password !== confirm) {
+        signupError.textContent = "Passwords do not match.";
+        signupError.classList.add("visible");
+        return;
+      }
+
+      // TODO: replace with real signup API call
+      console.log("Signup payload:", { name, contact, password });
+      signupError.textContent = "";
+      signupError.classList.remove("visible");
+    });
+
+    loginForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      loginError.classList.remove("visible");
+      loginError.textContent = "";
+
+      const contact = loginForm.contact.value.trim();
+      const password = loginForm.password.value.trim();
+
+      if (!contact || !password) {
+        loginError.textContent = "Contact and password are required.";
+        loginError.classList.add("visible");
+        return;
+      }
+
+      // TODO: replace with real login API call
+      console.log("Login payload:", { contact, password });
+      loginError.textContent = "";
+      loginError.classList.remove("visible");
+    });
+
+    setMode("signup");
+  </script>
+</body>
+</html>
