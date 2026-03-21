@@ -653,6 +653,11 @@
     const switchLinks = document.querySelectorAll("[data-switch]");
     const backBtn = document.getElementById("back-btn");
 
+    // Read role and mode from URL
+    const params = new URLSearchParams(window.location.search);
+    const currentRole = params.get("role") === "owner" ? "owner" : "member";
+    const initialMode = params.get("mode") === "login" ? "login" : "signup";
+
     function setMode(mode) {
       tabs.forEach((tab) => {
         tab.classList.toggle("active", tab.dataset.mode === mode);
@@ -665,9 +670,15 @@
       loginError.classList.remove("visible");
 
       if (isSignup) {
-        authTitle.textContent = "Create your FitClub account";
-        authSubtitle.innerHTML =
-          "Set up your account in <span>less than a minute</span>.";
+        if (currentRole === "owner") {
+          authTitle.textContent = "Create your gym owner account";
+          authSubtitle.innerHTML =
+            "Set up your <span>FitClub</span> dashboard for your gym.";
+        } else {
+          authTitle.textContent = "Create your FitClub account";
+          authSubtitle.innerHTML =
+            "Set up your account in <span>less than a minute</span>.";
+        }
       } else {
         authTitle.textContent = "Welcome back to FitClub";
         authSubtitle.innerHTML =
@@ -687,7 +698,7 @@
     });
 
     backBtn.addEventListener("click", () => {
-      window.location.href = "index.html";
+      window.location.href = "selectrole.html";
     });
 
     signupForm.addEventListener("submit", (e) => {
@@ -718,7 +729,15 @@
         return;
       }
 
-      console.log("Signup payload:", { name, contact, password });
+      const payload = {
+        name,
+        contact,
+        password,
+        role: currentRole, // "member" or "owner"
+      };
+
+      console.log("Signup payload:", payload);
+      // TODO: send payload to your backend / Firebase
     });
 
     loginForm.addEventListener("submit", (e) => {
@@ -736,9 +755,11 @@
       }
 
       console.log("Login payload:", { contact, password });
+      // TODO: call your login API
     });
 
-    setMode("signup");
+    // Initialize mode and headings
+    setMode(initialMode);
   </script>
 </body>
 </html>
