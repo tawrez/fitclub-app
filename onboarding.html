@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>FitClub • Welcome</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    :root {
+      --fit-bg: #ffffff;
+      --fit-black: #111111;
+      --fit-muted: #555555;
+      --fit-gold: #d4af37;
+      --fit-gold-soft: rgba(212, 175, 55, 0.14);
+      --fit-gold-strong: rgba(212, 175, 55, 0.95);
+      --fit-radius-lg: 24px;
+      --fit-radius-pill: 999px;
+      --fit-shadow: 0 18px 45px rgba(0, 0, 0, 0.35);
+      --fit-transition: 0.28s ease-out;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background: var(--fit-bg);
+      color: var(--fit-black);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    button {
+      outline: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button:focus {
+      outline: none;
+    }
+
+    .shell {
+      position: relative;
+      width: 100%;
+      max-width: 900px;
+      height: 100vh;
+      max-height: 640px;
+      border-radius: 32px;
+      overflow: hidden;
+      box-shadow: var(--fit-shadow);
+      background: #000;
+      color: #fff;
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    }
+
+    .media {
+      position: relative;
+      overflow: hidden;
+      background: #000;
+    }
+
+    .media::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: url("https://images.pexels.com/photos/3837781/pexels-photo-3837781.jpeg?auto=compress&cs=tinysrgb&w=1200");
+      background-size: cover;
+      background-position: center;
+      filter: grayscale(0.2) contrast(1.05);
+      transform: scale(1.05);
+    }
+
+    .media::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        145deg,
+        rgba(0, 0, 0, 0.7),
+        rgba(0, 0, 0, 0.35),
+        rgba(0, 0, 0, 0.8)
+      );
+      mix-blend-mode: multiply;
+    }
+
+    .media-overlay {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      padding: 22px 22px 24px 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: var(--fit-radius-pill);
+      background: rgba(0, 0, 0, 0.65);
+      color: #f8f8f8;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+    }
+
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--fit-gold);
+      box-shadow: 0 0 14px rgba(212, 175, 55, 0.9);
+    }
+
+    .media-title {
+      margin-top: 16px;
+      max-width: 260px;
+    }
+
+    .media-title h1 {
+      font-size: 26px;
+      line-height: 1.2;
+    }
+
+    .media-title span {
+      color: var(--fit-gold);
+    }
+
+    .media-title p {
+      margin-top: 6px;
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.78);
+    }
+
+    .media-footer {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.76);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .media-footer strong {
+      color: var(--fit-gold);
+      font-weight: 600;
+    }
+
+    .media-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .media-tag {
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: var(--fit-radius-pill);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    .content {
+      position: relative;
+      background: #ffffff;
+      color: #111111;
+      padding: 18px 20px 20px 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .content-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 12px;
+      background: #111111;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-mark::after {
+      content: "";
+      position: absolute;
+      inset: 4px;
+      border-radius: 10px;
+      border: 2px solid var(--fit-gold);
+    }
+
+    .logo-mark span {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--fit-gold);
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+    }
+
+    .logo-text strong {
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-size: 12px;
+    }
+
+    .logo-text span {
+      font-size: 11px;
+      color: var(--fit-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+    }
+
+    .step-indicator {
+      font-size: 11px;
+      color: var(--fit-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+    }
+
+    .progress {
+      position: relative;
+      height: 4px;
+      border-radius: 999px;
+      background: #f0f0f0;
+      overflow: hidden;
+      margin-bottom: 14px;
+    }
+
+    .progress-bar {
+      position: absolute;
+      inset: 0;
+      width: 0;
+      background: linear-gradient(
+        90deg,
+        var(--fit-gold),
+        rgba(0, 0, 0, 0.95)
+      );
+      transform-origin: left;
+      transition: width var(--fit-transition);
+    }
+
+    .slides {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      border-radius: 18px;
+      border: 1px solid #f0f0f0;
+      background: linear-gradient(
+        135deg,
+        #ffffff,
+        #fdf9f0,
+        #ffffff
+      );
+    }
+
+    .slides-track {
+      height: 100%;
+      display: flex;
+      transition: transform var(--fit-transition);
+      touch-action: pan-y;
+    }
+
+    .slide {
+      min-width: 100%;
+      padding: 18px 18px 16px 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .slide-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--fit-muted);
+      margin-bottom: 6px;
+    }
+
+    .slide-title {
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+
+    .slide-title span {
+      color: var(--fit-gold);
+    }
+
+    .slide-body {
+      font-size: 13px;
+      color: #333333;
+      margin-bottom: 10px;
+    }
+
+    .slide-list {
+      list-style: none;
+      font-size: 13px;
+      color: #212121;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .slide-list li::before {
+      content: "•";
+      color: var(--fit-gold);
+      display: inline-block;
+      width: 12px;
+      margin-left: -12px;
+    }
+
+    .slide-list li {
+      padding-left: 12px;
+    }
+
+    .slide-footer-tag {
+      margin-top: 10px;
+      font-size: 11px;
+      color: var(--fit-muted);
+    }
+
+    .slide-footer-tag span {
+      color: var(--fit-gold);
+      font-weight: 600;
+    }
+
+    .bottom {
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .dots {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      border: 1px solid #111111;
+      background: transparent;
+      opacity: 0.35;
+      cursor: pointer;
+      transition: background var(--fit-transition), transform var(--fit-transition),
+        opacity var(--fit-transition), border-color var(--fit-transition);
+    }
+
+    .dot.active {
+      background: #111111;
+      opacity: 1;
+      transform: scale(1.15);
+    }
+
+    .nav-buttons {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .ghost-btn {
+      border-radius: var(--fit-radius-pill);
+      padding: 8px 12px;
+      border: 1px solid #e1e1e1;
+      background: #ffffff;
+      font-size: 11px;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--fit-muted);
+      transition: background var(--fit-transition), color var(--fit-transition),
+        border-color var(--fit-transition), transform var(--fit-transition);
+    }
+
+    .ghost-btn:hover {
+      background: #f7f7f7;
+      transform: translateY(-1px);
+    }
+
+    .primary-btn {
+      border-radius: var(--fit-radius-pill);
+      padding: 10px 18px;
+      border: 1px solid #111111;
+      background: #ffffff;
+      color: #111111;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: background var(--fit-transition), color var(--fit-transition),
+        border-color var(--fit-transition), transform var(--fit-transition),
+        box-shadow var(--fit-transition);
+    }
+
+    .primary-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+    }
+
+    .primary-btn.final {
+      background: var(--fit-gold-strong);
+      color: #111111;
+      border-color: #111111;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.28);
+    }
+
+    .primary-btn.final:hover {
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.4);
+    }
+
+    .hint {
+      margin-top: 6px;
+      font-size: 10px;
+      color: var(--fit-muted);
+    }
+
+    .hint span {
+      font-weight: 600;
+      color: var(--fit-gold);
+    }
+
+    /* Responsive */
+    @media (max-width: 880px) {
+      .shell {
+        grid-template-columns: minmax(0, 1fr);
+        height: 100vh;
+        max-height: none;
+      }
+
+      .media {
+        display: block;
+        height: 40%;
+      }
+
+      .content {
+        padding: 16px 14px 14px 14px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 0;
+      }
+
+      .shell {
+        border-radius: 0;
+        box-shadow: none;
+      }
+
+      .slides {
+        border-radius: 16px;
+      }
+
+      .media {
+        height: 42%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="media">
+      <div class="media-overlay">
+        <div>
+          <div class="badge">
+            <div class="badge-dot"></div>
+            <span>FitClub</span>
+            <span>For gyms & members</span>
+          </div>
+          <div class="media-title">
+            <h1>Turn your gym into a <span>smart club</span>.</h1>
+            <p>Automate renewals, payments and check‑ins while your members enjoy a seamless experience.</p>
+          </div>
+        </div>
+
+        <div class="media-footer">
+          <div>Built for <strong>busy gym owners</strong> who don’t want to play admin all day.</div>
+          <div class="media-tags">
+            <div class="media-tag">Automated renewals</div>
+            <div class="media-tag">Smart reports</div>
+            <div class="media-tag">Member rewards</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="content">
+      <header class="content-header">
+        <div class="logo">
+          <div class="logo-mark"><span>F</span></div>
+          <div class="logo-text">
+            <strong>FitClub</strong>
+            <span>Gym management</span>
+          </div>
+        </div>
+        <div class="step-indicator" id="step-indicator">
+          1 / 5
+        </div>
+      </header>
+
+      <div class="progress">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+
+      <div class="slides" id="slides">
+        <div class="slides-track" id="slides-track">
+          <!-- SLIDE 1 -->
+          <article class="slide">
+            <div>
+              <div class="slide-label">Welcome</div>
+              <h2 class="slide-title">
+                One app for <span>owners</span> and <span>members</span>.
+              </h2>
+              <p class="slide-body">
+                FitClub keeps your front desk, trainers and members on the same page — without registers, notebooks or manual follow‑ups.
+              </p>
+              <ul class="slide-list">
+                <li>Owners see everything: members, plans, payments and renewals in one dashboard.</li>
+                <li>Members manage their entire journey from the app: join, renew, refer and pay.</li>
+                <li>Works for single gyms and multi‑branch setups.</li>
+              </ul>
+            </div>
+            <div class="slide-footer-tag">
+              <span>Tip:</span> Use FitClub as your primary source of truth for membership data.
+            </div>
+          </article>
+
+          <!-- SLIDE 2 -->
+          <article class="slide">
+            <div>
+              <div class="slide-label">For gym owners</div>
+              <h2 class="slide-title">
+                No more <span>“who has to renew?”</span>
+              </h2>
+              <p class="slide-body">
+                FitClub automatically keeps track of every active, expired and upcoming membership so you never miss a renewal.
+              </p>
+              <ul class="slide-list">
+                <li>Automatic reminders for expiring members via app notifications and SMS (optional).</li>
+                <li>Clear list of members to renew today, this week and this month.</li>
+                <li>In‑app renewals: members can pay from the app, no cash counter rush.</li>
+              </ul>
+            </div>
+            <div class="slide-footer-tag">
+              <span>Result:</span> Higher renewals with less follow‑up calls and manual checking.
+            </div>
+          </article>
+
+          <!-- SLIDE 3 -->
+          <article class="slide">
+            <div>
+              <div class="slide-label">Money & reports</div>
+              <h2 class="slide-title">
+                Complete log of <span>earnings</span>.
+              </h2>
+              <p class="slide-body">
+                See how your gym is performing at a glance with clean reports for every time period.
+              </p>
+              <ul class="slide-list">
+                <li>Daily, weekly and monthly earning reports with filters by plan, trainer or branch.</li>
+                <li>Breakdown of cash vs. online payments and pending dues.</li>
+                <li>Export data whenever you need for CA, investors or your own tracking.</li>
+              </ul>
+            </div>
+            <div class="slide-footer-tag">
+              <span>Focus:</span> You train your members, FitClub tracks the numbers.
+            </div>
+          </article>
+
+          <!-- SLIDE 4 -->
+          <article class="slide">
+            <div>
+              <div class="slide-label">For members</div>
+              <h2 class="slide-title">
+                Faster joins, <span>1‑tap renewal</span> & rewards.
+              </h2>
+              <p class="slide-body">
+                Members get a modern experience without any confusion about dates, plans or payments.
+              </p>
+              <ul class="slide-list">
+                <li>Quick admission: fill details once and get a digital pass for instant check‑in.</li>
+                <li>Smart reminders before expiry so they never “forget” their renewal date.</li>
+                <li>Refer a friend for yearly package and earn up to ₹250 wallet credit per referral.</li>
+              </ul>
+            </div>
+            <div class="slide-footer-tag">
+              <span>Bonus:</span> Members feel like they are part of a premium club, not a typical gym.
+            </div>
+          </article>
+
+          <!-- SLIDE 5 -->
+          <article class="slide">
+            <div>
+              <div class="slide-label">Ready to start?</div>
+              <h2 class="slide-title">
+                Turn your gym into a <span>FitClub</span>.
+              </h2>
+              <p class="slide-body">
+                You’re one step away from smarter memberships, cleaner reports and happier members.
+              </p>
+              <ul class="slide-list">
+                <li>Set up your gym profile in under 60 seconds.</li>
+                <li>Invite your team and start tracking members from day one.</li>
+                <li>Members can join and renew directly from the FitClub app or website.</li>
+              </ul>
+            </div>
+            <div class="slide-footer-tag">
+              <span>Next:</span> Create your account and connect your first gym.
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <div class="bottom">
+        <div class="dots" id="dots">
+          <!-- dots generated by JS -->
+        </div>
+
+        <div class="nav-buttons">
+          <button type="button" class="ghost-btn" id="prev-btn">Back</button>
+          <button type="button" class="primary-btn" id="next-btn">
+            <span id="next-label">Next</span>
+          </button>
+        </div>
+      </div>
+
+      <p class="hint">
+        Swipe left/right or tap <span>Next</span> to continue.
+      </p>
+    </section>
+  </main>
+
+  <script>
+    const slidesTrack = document.getElementById("slides-track");
+    const slides = Array.from(document.querySelectorAll(".slide"));
+    const totalSlides = slides.length;
+    const dotsContainer = document.getElementById("dots");
+    const prevBtn = document.getElementById("prev-btn");
+    const nextBtn = document.getElementById("next-btn");
+    const nextLabel = document.getElementById("next-label");
+    const stepIndicator = document.getElementById("step-indicator");
+    const progressBar = document.getElementById("progress-bar");
+
+    let currentIndex = 0;
+    let startX = 0;
+    let currentX = 0;
+    let isDragging = false;
+
+    function updateUI() {
+      const offset = -currentIndex * 100;
+      slidesTrack.style.transform = `translateX(${offset}%)`;
+
+      stepIndicator.textContent = `${currentIndex + 1} / ${totalSlides}`;
+
+      const progress = ((currentIndex + 1) / totalSlides) * 100;
+      progressBar.style.width = `${progress}%`;
+
+      const dots = Array.from(dotsContainer.children);
+      dots.forEach((dot, index) => {
+        dot.classList.toggle("active", index === currentIndex);
+      });
+
+      prevBtn.style.visibility = currentIndex === 0 ? "hidden" : "visible";
+
+      const isLast = currentIndex === totalSlides - 1;
+      nextBtn.classList.toggle("final", isLast);
+      nextLabel.textContent = isLast ? "Get started" : "Next";
+    }
+
+    function goToSlide(index) {
+      if (index < 0 || index >= totalSlides) return;
+      currentIndex = index;
+      updateUI();
+    }
+
+    function goNext() {
+      if (currentIndex === totalSlides - 1) {
+        window.location.href = "index.html";
+        return;
+      }
+      goToSlide(currentIndex + 1);
+    }
+
+    function goPrev() {
+      goToSlide(currentIndex - 1);
+    }
+
+    slides.forEach(() => {
+      const dot = document.createElement("button");
+      dot.className = "dot";
+      dot.type = "button";
+      dotsContainer.appendChild(dot);
+    });
+
+    dotsContainer.addEventListener("click", (e) => {
+      if (!(e.target instanceof HTMLElement)) return;
+      if (!e.target.classList.contains("dot")) return;
+      const dots = Array.from(dotsContainer.children);
+      const index = dots.indexOf(e.target);
+      if (index !== -1) goToSlide(index);
+    });
+
+    prevBtn.addEventListener("click", goPrev);
+    nextBtn.addEventListener("click", goNext);
+
+    const slidesArea = document.getElementById("slides");
+
+    slidesArea.addEventListener("touchstart", (e) => {
+      if (!e.touches || e.touches.length === 0) return;
+      startX = e.touches[0].clientX;
+      currentX = startX;
+      isDragging = true;
+    });
+
+    slidesArea.addEventListener("touchmove", (e) => {
+      if (!isDragging || !e.touches || e.touches.length === 0) return;
+      currentX = e.touches[0].clientX;
+    });
+
+    slidesArea.addEventListener("touchend", () => {
+      if (!isDragging) return;
+      const deltaX = currentX - startX;
+      const threshold = 50;
+
+      if (deltaX > threshold) {
+        goPrev();
+      } else if (deltaX < -threshold) {
+        goNext();
+      }
+
+      isDragging = false;
+      startX = 0;
+      currentX = 0;
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") goNext();
+      if (e.key === "ArrowLeft") goPrev();
+    });
+
+    updateUI();
+  </script>
+</body>
+</html>
