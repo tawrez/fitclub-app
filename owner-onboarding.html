@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>FitClub • Gym owner onboarding</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    :root {
+      --fit-bg: #ffffff;
+      --fit-black: #111111;
+      --fit-muted: #666666;
+      --fit-gold: #d4af37;
+      --fit-border: #e5e5e5;
+      --fit-radius-pill: 999px;
+      --fit-radius-lg: 20px;
+      --fit-shadow: 0 18px 45px rgba(0, 0, 0, 0.28);
+      --fit-transition: 0.22s ease-out;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background: radial-gradient(circle at top, #fdf8ea, #fdfdfd);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      color: var(--fit-black);
+    }
+
+    button, input, select, textarea {
+      font-family: inherit;
+      outline: none;
+      border: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .shell {
+      width: 100%;
+      max-width: 960px;
+      max-height: 680px;
+      height: 100vh;
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: var(--fit-shadow);
+      background: #ffffff;
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    }
+
+    /* LEFT summary */
+
+    .left {
+      padding: 26px 24px 22px 24px;
+      border-right: 1px solid #f0f0f0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: radial-gradient(circle at top left, #fdf4d9, #ffffff);
+    }
+
+    .logo-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-mark {
+      width: 36px;
+      height: 36px;
+      border-radius: 14px;
+      background: #111111;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-mark::after {
+      content: "";
+      position: absolute;
+      inset: 4px;
+      border-radius: 12px;
+      border: 2px solid var(--fit-gold);
+    }
+
+    .logo-mark span {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--fit-gold);
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+    }
+
+    .logo-text strong {
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-size: 12px;
+    }
+
+    .logo-text span {
+      font-size: 11px;
+      color: var(--fit-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+    }
+
+    .back-btn {
+      border-radius: var(--fit-radius-pill);
+      border: 1px solid #111111;
+      padding: 7px 14px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      background: transparent;
+      color: #111111;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: background var(--fit-transition), color var(--fit-transition),
+        transform var(--fit-transition), box-shadow var(--fit-transition),
+        border-color var(--fit-transition);
+    }
+
+    .back-btn span.icon {
+      font-size: 13px;
+    }
+
+    .back-btn:hover {
+      background: #111111;
+      color: #ffffff;
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.2);
+      transform: translateY(-1px);
+    }
+
+    .hero {
+      margin-top: 4px;
+    }
+
+    .hero h1 {
+      font-size: 23px;
+      margin-bottom: 6px;
+    }
+
+    .hero h1 span {
+      color: var(--fit-gold);
+    }
+
+    .hero p {
+      font-size: 13px;
+      color: var(--fit-muted);
+      max-width: 320px;
+    }
+
+    .steps {
+      margin-top: 18px;
+      font-size: 12px;
+      color: #222222;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .steps span.label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--fit-muted);
+    }
+
+    .steps ul {
+      list-style: none;
+      margin-top: 4px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .steps ul li::before {
+      content: "•";
+      color: var(--fit-gold);
+      display: inline-block;
+      width: 12px;
+      margin-left: -12px;
+    }
+
+    .steps ul li {
+      padding-left: 12px;
+    }
+
+    .summary-card {
+      margin-top: 18px;
+      border-radius: 16px;
+      border: 1px dashed #e2cf93;
+      padding: 10px 12px;
+      background: #fffdf6;
+      font-size: 11px;
+      color: var(--fit-muted);
+    }
+
+    .summary-card span {
+      color: var(--fit-gold);
+      font-weight: 600;
+    }
+
+    .left-footer {
+      margin-top: 20px;
+      font-size: 11px;
+      color: var(--fit-muted);
+    }
+
+    .left-footer span {
+      color: var(--fit-gold);
+      font-weight: 600;
+    }
+
+    /* RIGHT: form */
+
+    .right {
+      padding: 20px 22px 18px 22px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .right header {
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 8px;
+    }
+
+    .right-title {
+      font-size: 18px;
+    }
+
+    .badge-role {
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: var(--fit-radius-pill);
+      border: 1px solid #f0e2b3;
+      background: rgba(212, 175, 55, 0.1);
+      color: #8a6a1b;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+    }
+
+    .right-subtitle {
+      font-size: 12px;
+      color: var(--fit-muted);
+      margin-bottom: 10px;
+    }
+
+    form {
+      flex: 1;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px 14px;
+      align-content: flex-start;
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    .field-full {
+      grid-column: 1 / -1;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--fit-muted);
+    }
+
+    .field-input,
+    .field-textarea,
+    .field-select {
+      border-radius: 12px;
+      border: 1px solid var(--fit-border);
+      background: #ffffff;
+      padding: 8px 10px;
+      display: flex;
+      align-items: center;
+      transition: border-color var(--fit-transition),
+        box-shadow var(--fit-transition), transform var(--fit-transition),
+        background var(--fit-transition);
+    }
+
+    .field-input input,
+    .field-select select {
+      width: 100%;
+      border: none;
+      background: transparent;
+      font-size: 13px;
+      color: #111111;
+    }
+
+    .field-input input::placeholder,
+    .field-textarea textarea::placeholder {
+      color: #999999;
+    }
+
+    .field-textarea textarea {
+      width: 100%;
+      border: none;
+      background: transparent;
+      resize: vertical;
+      min-height: 70px;
+      max-height: 150px;
+      font-size: 13px;
+      color: #111111;
+    }
+
+    .field-input:focus-within,
+    .field-textarea:focus-within,
+    .field-select:focus-within {
+      border-color: var(--fit-gold);
+      box-shadow: 0 0 0 1px rgba(212, 175, 55, 0.45);
+      transform: translateY(-1px);
+      background: #fffef7;
+    }
+
+    .field-help {
+      font-size: 10px;
+      color: var(--fit-muted);
+    }
+
+    .field-inline {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--fit-muted);
+    }
+
+    .field-inline span.value-pill {
+      padding: 4px 10px;
+      border-radius: var(--fit-radius-pill);
+      background: #f5f5f5;
+      border: 1px solid #e4e4e4;
+      font-size: 12px;
+    }
+
+    .file-input {
+      border-radius: 12px;
+      border: 1px dashed #d8d8d8;
+      padding: 10px 10px;
+      background: #fafafa;
+      font-size: 12px;
+      color: var(--fit-muted);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      cursor: pointer;
+      transition: border-color var(--fit-transition),
+        background var(--fit-transition), transform var(--fit-transition);
+    }
+
+    .file-input:hover {
+      border-color: var(--fit-gold);
+      background: #fffdf6;
+      transform: translateY(-1px);
+    }
+
+    .file-input input[type="file"] {
+      display: none;
+    }
+
+    .file-input span.label {
+      font-weight: 500;
+      color: #222222;
+    }
+
+    .file-input span.meta {
+      font-size: 11px;
+      color: var(--fit-muted);
+    }
+
+    .footer-bar {
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .error {
+      font-size: 11px;
+      color: #c51f1f;
+      display: none;
+    }
+
+    .error.visible {
+      display: block;
+    }
+
+    .primary-btn {
+      border-radius: var(--fit-radius-pill);
+      padding: 10px 18px;
+      border: 1px solid #111111;
+      background: #111111;
+      color: #ffffff;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: background var(--fit-transition), color var(--fit-transition),
+        border-color var(--fit-transition), transform var(--fit-transition),
+        box-shadow var(--fit-transition);
+    }
+
+    .primary-btn:hover {
+      background: var(--fit-gold);
+      color: #111111;
+      border-color: #111111;
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.24);
+      transform: translateY(-1px);
+    }
+
+    .secondary-text {
+      font-size: 10px;
+      color: var(--fit-muted);
+    }
+
+    .secondary-text span {
+      color: var(--fit-gold);
+      font-weight: 600;
+    }
+
+    @media (max-width: 880px) {
+      .shell {
+        grid-template-columns: minmax(0, 1fr);
+        max-height: none;
+        height: auto;
+      }
+
+      .left {
+        border-right: none;
+        border-bottom: 1px solid #f0f0f0;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 0;
+      }
+
+      .shell {
+        border-radius: 0;
+        box-shadow: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="left">
+      <div>
+        <div class="logo-row">
+          <div class="logo">
+            <div class="logo-mark"><span>F</span></div>
+            <div class="logo-text">
+              <strong>FitClub</strong>
+              <span>Gym management</span>
+            </div>
+          </div>
+          <button type="button" class="back-btn" id="back-btn">
+            <span class="icon">⟵</span>
+            <span>Back</span>
+          </button>
+        </div>
+
+        <div class="hero">
+          <h1>Set up your <span>gym profile</span>.</h1>
+          <p>These details power your dashboard, reports and member app. You can edit everything later.</p>
+        </div>
+
+        <div class="steps">
+          <span class="label">This helps you</span>
+          <ul>
+            <li>Show correct gym name and contact details to members.</li>
+            <li>Get reports in the right currency based on your country.</li>
+            <li>Attach your terms, UPI and QR so staff don’t have to explain every time.</li>
+          </ul>
+        </div>
+
+        <div class="summary-card" id="summary-card">
+          Owner: <span id="summary-owner">—</span><br />
+          Gym: <span id="summary-gym">—</span><br />
+          City: <span id="summary-city">—</span>
+        </div>
+      </div>
+
+      <div class="left-footer">
+        You can update these details anytime in <span>Settings → Gym profile</span>.
+      </div>
+    </section>
+
+    <section class="right">
+      <header>
+        <div>
+          <div class="right-title">Gym owner onboarding</div>
+          <div class="right-subtitle">Tell us about your gym so we can configure your FitClub dashboard.</div>
+        </div>
+        <div class="badge-role">Owner</div>
+      </header>
+
+      <form id="owner-form" autocomplete="on" novalidate>
+        <!-- Owner name -->
+        <div class="field field-half">
+          <label for="owner-name">Gym owner name</label>
+          <div class="field-input">
+            <input id="owner-name" name="ownerName" type="text" placeholder="Jordan Smith" required />
+          </div>
+        </div>
+
+        <!-- Gym name -->
+        <div class="field field-half">
+          <label for="gym-name">Gym name</label>
+          <div class="field-input">
+            <input id="gym-name" name="gymName" type="text" placeholder="FitClub Downtown" required />
+          </div>
+        </div>
+
+        <!-- Address line 1 -->
+        <div class="field field-full">
+          <label for="addr1">Address line 1</label>
+          <div class="field-input">
+            <input id="addr1" name="address1" type="text" placeholder="Street, building, area" required />
+          </div>
+        </div>
+
+        <!-- Address line 2 -->
+        <div class="field field-full">
+          <label for="addr2">Address line 2</label>
+          <div class="field-input">
+            <input id="addr2" name="address2" type="text" placeholder="Landmark, floor, optional" />
+          </div>
+        </div>
+
+        <!-- City -->
+        <div class="field">
+          <label for="city">City</label>
+          <div class="field-input">
+            <input id="city" name="city" type="text" placeholder="Bengaluru" required />
+          </div>
+        </div>
+
+        <!-- State -->
+        <div class="field">
+          <label for="state">State</label>
+          <div class="field-input">
+            <input id="state" name="state" type="text" placeholder="Karnataka" required />
+          </div>
+        </div>
+
+        <!-- Country -->
+        <div class="field">
+          <label for="country">Country</label>
+          <div class="field-select">
+            <select id="country" name="country" required>
+              <option value="">Select country</option>
+              <option value="IN">India</option>
+              <option value="US">United States</option>
+              <option value="GB">United Kingdom</option>
+              <option value="AE">United Arab Emirates</option>
+              <option value="CA">Canada</option>
+              <option value="AU">Australia</option>
+              <option value="SG">Singapore</option>
+              <option value="SA">Saudi Arabia</option>
+              <option value="DE">Germany</option>
+              <option value="FR">France</option>
+              <option value="BR">Brazil</option>
+              <option value="ZA">South Africa</option>
+              <!-- you can add full list later using a generator[web:111][web:114] -->
+            </select>
+          </div>
+          <div class="field-help">This decides your default currency.</div>
+        </div>
+
+        <!-- Currency (auto) -->
+        <div class="field">
+          <label>Currency</label>
+          <div class="field-inline">
+            <span class="value-pill" id="currency-pill">—</span>
+            <span class="field-help">Auto-selected from country; cannot be edited.</span>
+          </div>
+        </div>
+
+        <!-- Phone -->
+        <div class="field">
+          <label for="phone">Phone number</label>
+          <div class="field-input">
+            <input id="phone" name="phone" type="tel" placeholder="+91 98765 43210" required />
+          </div>
+          <div class="field-help">Pulled from signup; you can change if needed.</div>
+        </div>
+
+        <!-- Email -->
+        <div class="field">
+          <label for="email">Email</label>
+          <div class="field-input">
+            <input id="email" name="email" type="email" placeholder="you@gymowner.com" required />
+          </div>
+          <div class="field-help">Used for owner login and reports.</div>
+        </div>
+
+        <!-- Tax / GST -->
+        <div class="field">
+          <label for="tax">Tax / GST number</label>
+          <div class="field-input">
+            <input id="tax" name="tax" type="text" placeholder="Optional for now" />
+          </div>
+          <div class="field-help">If you add this, it will appear on invoices.</div>
+        </div>
+
+        <!-- UPI number -->
+        <div class="field">
+          <label for="upi">UPI ID / number</label>
+          <div class="field-input">
+            <input id="upi" name="upi" type="text" placeholder="yourupi@bank" />
+          </div>
+          <div class="field-help">Members will see this for UPI payments (India only).</div>
+        </div>
+
+        <!-- Terms & conditions -->
+        <div class="field field-full">
+          <label for="terms">Gym terms & conditions</label>
+          <div class="field-textarea">
+            <textarea id="terms" name="terms" placeholder="Enter your gym terms and conditions that members must accept."></textarea>
+          </div>
+          <div class="field-help">You can keep this simple now and refine later.</div>
+        </div>
+
+        <!-- Gym photos upload -->
+        <div class="field field-full">
+          <label>Gym photos</label>
+          <label class="file-input">
+            <div>
+              <span class="label">Upload gym photos</span><br />
+              <span class="meta">Select 2–5 images (JPG / PNG)</span>
+            </div>
+            <input id="gym-photos" name="gymPhotos" type="file" accept="image/*" multiple />
+          </label>
+        </div>
+
+        <!-- UPI QR upload -->
+        <div class="field field-full">
+          <label>UPI QR code</label>
+          <label class="file-input">
+            <div>
+              <span class="label">Upload UPI QR image</span><br />
+              <span class="meta">Single image (JPG / PNG)</span>
+            </div>
+            <input id="upi-qr" name="upiQr" type="file" accept="image/*" />
+          </label>
+        </div>
+      </form>
+
+      <div class="footer-bar">
+        <div>
+          <p class="error" id="form-error"></p>
+          <p class="secondary-text">
+            By continuing, you confirm that these details are <span>correct and belong to your gym</span>.
+          </p>
+        </div>
+        <button type="button" class="primary-btn" id="save-btn">
+          Save & continue
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const backBtn = document.getElementById("back-btn");
+    const ownerForm = document.getElementById("owner-form");
+    const saveBtn = document.getElementById("save-btn");
+    const errorBox = document.getElementById("form-error");
+    const currencyPill = document.getElementById("currency-pill");
+
+    const summaryOwner = document.getElementById("summary-owner");
+    const summaryGym = document.getElementById("summary-gym");
+    const summaryCity = document.getElementById("summary-city");
+
+    // simple country->currency map
+    const countryCurrencyMap = {
+      IN: "INR ₹",
+      US: "USD $",
+      GB: "GBP £",
+      AE: "AED د.إ",
+      CA: "CAD $",
+      AU: "AUD $",
+      SG: "SGD $",
+      SA: "SAR ﷼",
+      DE: "EUR €",
+      FR: "EUR €",
+      BR: "BRL R$",
+      ZA: "ZAR R"
+    };
+
+    // Prefill phone/email from signup using localStorage (set there)
+    const storedOwner = JSON.parse(localStorage.getItem("fitclub_signup_owner") || "{}");
+    if (storedOwner.contact) {
+      document.getElementById("phone").value = storedOwner.contact;
+    }
+    if (storedOwner.email) {
+      document.getElementById("email").value = storedOwner.email;
+    }
+    if (storedOwner.name) {
+      document.getElementById("owner-name").value = storedOwner.name;
+      summaryOwner.textContent = storedOwner.name;
+    }
+
+    // Update currency when country changes
+    const countrySelect = document.getElementById("country");
+    function updateCurrency() {
+      const code = countrySelect.value;
+      if (countryCurrencyMap[code]) {
+        currencyPill.textContent = countryCurrencyMap[code];
+      } else {
+        currencyPill.textContent = "—";
+      }
+    }
+    countrySelect.addEventListener("change", updateCurrency);
+    updateCurrency();
+
+    // Update summary card as user types
+    document.getElementById("gym-name").addEventListener("input", (e) => {
+      summaryGym.textContent = e.target.value || "—";
+    });
+    document.getElementById("city").addEventListener("input", (e) => {
+      summaryCity.textContent = e.target.value || "—";
+    });
+
+    backBtn.addEventListener("click", () => {
+      window.location.href = "signup.html?mode=signup&role=owner";
+    });
+
+    saveBtn.addEventListener("click", () => {
+      errorBox.classList.remove("visible");
+      errorBox.textContent = "";
+
+      const formData = new FormData(ownerForm);
+
+      const requiredFields = [
+        "ownerName",
+        "gymName",
+        "address1",
+        "city",
+        "state",
+        "country",
+        "phone",
+        "email"
+      ];
+
+      for (const name of requiredFields) {
+        if (!formData.get(name) || String(formData.get(name)).trim() === "") {
+          errorBox.textContent = "Please fill all required fields marked above.";
+          errorBox.classList.add("visible");
+          return;
+        }
+      }
+
+      const country = formData.get("country");
+      const currency = countryCurrencyMap[country] || "";
+
+      const payload = {
+        ownerName: formData.get("ownerName").trim(),
+        gymName: formData.get("gymName").trim(),
+        address1: formData.get("address1").trim(),
+        address2: (formData.get("address2") || "").trim(),
+        city: formData.get("city").trim(),
+        state: formData.get("state").trim(),
+        country,
+        currency,
+        phone: formData.get("phone").trim(),
+        email: formData.get("email").trim(),
+        tax: (formData.get("tax") || "").trim(),
+        upi: (formData.get("upi") || "").trim(),
+        terms: (formData.get("terms") || "").trim()
+        // files (gymPhotos, upiQr) will be in FormData directly
+      };
+
+      console.log("Owner onboarding payload:", payload);
+      // TODO: send `formData` or `payload` to your backend / Firebase storage
+
+      // You can redirect after successful save:
+      // window.location.href = "owner-dashboard.html";
+    });
+  </script>
+</body>
+</html>
