@@ -55,7 +55,7 @@
       grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
     }
 
-    /* LEFT summary */
+    /* LEFT */
 
     .left {
       padding: 26px 24px 22px 24px;
@@ -165,21 +165,6 @@
       font-size: 13px;
       color: var(--fit-muted);
       max-width: 320px;
-    }
-
-    .summary-card {
-      margin-top: 18px;
-      border-radius: 16px;
-      border: 1px dashed #e2cf93;
-      padding: 10px 12px;
-      background: #fffdf6;
-      font-size: 11px;
-      color: var(--fit-muted);
-    }
-
-    .summary-card span {
-      color: var(--fit-gold);
-      font-weight: 600;
     }
 
     .left-footer {
@@ -334,22 +319,24 @@
       display: grid;
       grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
       gap: 10px;
+      align-items: flex-start;
     }
 
     .file-input {
-      border-radius: 999px;
-      border: 1px solid #111111;
-      padding: 8px 14px;
-      background: #111111;
-      font-size: 12px;
-      color: #ffffff;
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      cursor: pointer;
+      gap: 6px;
+      border-radius: var(--fit-radius-pill);
+      border: 1px solid #111111;
+      background: #111111;
+      color: #ffffff;
+      padding: 7px 12px;
+      font-size: 11px;
       white-space: nowrap;
+      cursor: pointer;
       transition: background var(--fit-transition), color var(--fit-transition),
         transform var(--fit-transition), box-shadow var(--fit-transition);
+      width: auto;
     }
 
     .file-input:hover {
@@ -368,8 +355,8 @@
     }
 
     .file-input span.meta {
-      font-size: 11px;
-      color: #f5f5f5;
+      font-size: 10px;
+      opacity: 0.8;
     }
 
     .preview-grid {
@@ -514,12 +501,6 @@
         <div class="hero">
           <h1>Set up your <span>gym profile</span>.</h1>
           <p>These details power your dashboard, reports and member app. You can edit everything later.</p>
-        </div>
-
-        <div class="summary-card" id="summary-card">
-          Owner: <span id="summary-owner">—</span><br />
-          Gym: <span id="summary-gym">—</span><br />
-          City: <span id="summary-city">—</span>
         </div>
       </div>
 
@@ -670,8 +651,8 @@
             <div>
               <label class="file-input">
                 <span class="icon">📁</span>
-                <span>Choose gym photos</span>
-                <span class="meta">(2–5 images, JPG / PNG)</span>
+                <span>Gym photos</span>
+                <span class="meta">(2–5 images)</span>
                 <input id="gym-photos" name="gymPhotos" type="file" accept="image/*" multiple />
               </label>
             </div>
@@ -688,8 +669,8 @@
             <div>
               <label class="file-input">
                 <span class="icon">📁</span>
-                <span>Choose UPI QR</span>
-                <span class="meta">(one image, JPG / PNG)</span>
+                <span>UPI QR</span>
+                <span class="meta">(one image)</span>
                 <input id="upi-qr" name="upiQr" type="file" accept="image/*" />
               </label>
             </div>
@@ -724,16 +705,11 @@
     const errorBox = document.getElementById("form-error");
     const currencyPill = document.getElementById("currency-pill");
 
-    const summaryOwner = document.getElementById("summary-owner");
-    const summaryGym = document.getElementById("summary-gym");
-    const summaryCity = document.getElementById("summary-city");
-
     const gymPhotosInput = document.getElementById("gym-photos");
     const gymPhotosPreview = document.getElementById("gym-photos-preview");
     const upiQrInput = document.getElementById("upi-qr");
     const upiQrPreview = document.getElementById("upi-qr-preview");
 
-    // simple country->currency map
     const countryCurrencyMap = {
       IN: "INR ₹",
       US: "USD $",
@@ -749,7 +725,7 @@
       ZA: "ZAR R"
     };
 
-    // Prefill phone/email from signup using localStorage
+    // Prefill phone/email from signup
     const storedOwner = JSON.parse(localStorage.getItem("fitclub_signup_owner") || "{}");
     if (storedOwner.contact) {
       document.getElementById("phone").value = storedOwner.contact;
@@ -759,35 +735,22 @@
     }
     if (storedOwner.name) {
       document.getElementById("owner-name").value = storedOwner.name;
-      summaryOwner.textContent = storedOwner.name;
     }
 
-    // Update currency when country changes
+    // Currency update
     const countrySelect = document.getElementById("country");
     function updateCurrency() {
       const code = countrySelect.value;
-      if (countryCurrencyMap[code]) {
-        currencyPill.textContent = countryCurrencyMap[code];
-      } else {
-        currencyPill.textContent = "—";
-      }
+      currencyPill.textContent = countryCurrencyMap[code] || "—";
     }
     countrySelect.addEventListener("change", updateCurrency);
     updateCurrency();
-
-    // Update summary card as user types
-    document.getElementById("gym-name").addEventListener("input", (e) => {
-      summaryGym.textContent = e.target.value || "—";
-    });
-    document.getElementById("city").addEventListener("input", (e) => {
-      summaryCity.textContent = e.target.value || "—";
-    });
 
     backBtn.addEventListener("click", () => {
       window.location.href = "signup.html?mode=signup&role=owner";
     });
 
-    // Preview gym photos + store base64 for dashboard slider later[web:121][web:146]
+    // Gym photos preview + store for dashboard[web:121][web:146]
     let gymPhotosData = [];
     gymPhotosInput.addEventListener("change", () => {
       gymPhotosPreview.innerHTML = "";
@@ -800,7 +763,6 @@
         gymPhotosPreview.appendChild(placeholder);
         return;
       }
-
       files.slice(0, 5).forEach((file) => {
         if (!file.type.startsWith("image/")) return;
         const reader = new FileReader();
@@ -818,28 +780,28 @@
       });
     });
 
-    // Preview UPI QR
+    // UPI QR preview
     upiQrInput.addEventListener("change", () => {
       upiQrPreview.innerHTML = "";
       const file = upiQrInput.files && upiQrInput.files[0];
       if (!file || !file.type.startsWith("image/")) {
-        const placeholderWrap = document.createElement("div");
-        placeholderWrap.className = "preview-thumb";
+        const wrap = document.createElement("div");
+        wrap.className = "preview-thumb";
         const placeholder = document.createElement("div");
         placeholder.className = "preview-placeholder";
         placeholder.textContent = "QR preview";
-        placeholderWrap.appendChild(placeholder);
-        upiQrPreview.appendChild(placeholderWrap);
+        wrap.appendChild(placeholder);
+        upiQrPreview.appendChild(wrap);
         return;
       }
       const reader = new FileReader();
       reader.onload = (e) => {
-        const wrapper = document.createElement("div");
-        wrapper.className = "preview-thumb";
+        const wrap = document.createElement("div");
+        wrap.className = "preview-thumb";
         const img = document.createElement("img");
         img.src = e.target.result;
-        wrapper.appendChild(img);
-        upiQrPreview.appendChild(wrapper);
+        wrap.appendChild(img);
+        upiQrPreview.appendChild(wrap);
       };
       reader.readAsDataURL(file);
     });
@@ -849,18 +811,9 @@
       errorBox.textContent = "";
 
       const formData = new FormData(ownerForm);
-
       const requiredFields = [
-        "ownerName",
-        "gymName",
-        "address1",
-        "city",
-        "state",
-        "country",
-        "phone",
-        "email"
+        "ownerName","gymName","address1","city","state","country","phone","email"
       ];
-
       for (const name of requiredFields) {
         if (!formData.get(name) || String(formData.get(name)).trim() === "") {
           errorBox.textContent = "Please fill all required fields marked above.";
@@ -870,8 +823,6 @@
       }
 
       const country = formData.get("country");
-      const currency = countryCurrencyMap[country] || "";
-
       const payload = {
         ownerName: formData.get("ownerName").trim(),
         gymName: formData.get("gymName").trim(),
@@ -880,7 +831,7 @@
         city: formData.get("city").trim(),
         state: formData.get("state").trim(),
         country,
-        currency,
+        currency: countryCurrencyMap[country] || "",
         phone: formData.get("phone").trim(),
         email: formData.get("email").trim(),
         tax: (formData.get("tax") || "").trim(),
@@ -889,8 +840,6 @@
       };
 
       console.log("Owner onboarding payload:", payload);
-
-      // Save minimal profile & photos for dashboard use
       localStorage.setItem("fitclub_gym_profile", JSON.stringify(payload));
       if (gymPhotosData.length) {
         localStorage.setItem("fitclub_gym_photos", JSON.stringify(gymPhotosData));
