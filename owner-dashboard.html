@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>FitClub • Owner dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    :root {
+      --fit-bg: #ffffff;
+      --fit-black: #111111;
+      --fit-muted: #777777;
+      --fit-gold: #d4af37;
+      --fit-gold-soft: rgba(212, 175, 55, 0.12);
+      --fit-border: #e5e5e5;
+      --fit-radius-pill: 999px;
+      --fit-shadow: 0 18px 45px rgba(0, 0, 0, 0.28);
+      --fit-transition: 0.22s ease-out;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background: radial-gradient(circle at top, #fdf8ea, #fdfdfd);
+      color: var(--fit-black);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    button {
+      font-family: inherit;
+      outline: none;
+      border: none;
+      -webkit-tap-highlight-color: transparent;
+      cursor: pointer;
+    }
+
+    .shell {
+      width: 100%;
+      max-width: 1120px;
+      max-height: 720px;
+      height: 100vh;
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: var(--fit-shadow);
+      background: #ffffff;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .top-bar {
+      padding: 14px 20px 10px 20px;
+      border-bottom: 1px solid #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 12px;
+      background: #111111;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-mark::after {
+      content: "";
+      position: absolute;
+      inset: 4px;
+      border-radius: 10px;
+      border: 2px solid var(--fit-gold);
+    }
+
+    .logo-mark span {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--fit-gold);
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+    }
+
+    .logo-text strong {
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-size: 12px;
+    }
+
+    .logo-text span {
+      font-size: 11px;
+      color: var(--fit-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+    }
+
+    .top-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+    }
+
+    .pill-code {
+      padding: 6px 10px;
+      border-radius: var(--fit-radius-pill);
+      border: 1px dashed #e2cf93;
+      background: #fffdf5;
+      font-size: 11px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #8a6a1b;
+    }
+
+    .pill-code span.code {
+      font-weight: 600;
+      letter-spacing: 0.12em;
+    }
+
+    .owner-badge {
+      padding: 5px 10px;
+      border-radius: var(--fit-radius-pill);
+      border: 1px solid #f0e2b3;
+      background: var(--fit-gold-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-size: 10px;
+      color: #8a6a1b;
+    }
+
+    .content {
+      flex: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.1fr);
+      gap: 0;
+      padding: 14px 18px 16px 18px;
+    }
+
+    /* Left: slider + add member */
+
+    .left-col {
+      padding-right: 10px;
+      border-right: 1px solid #f4f4f4;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .gym-header {
+      margin-bottom: 2px;
+    }
+
+    .gym-name {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .gym-sub {
+      font-size: 11px;
+      color: var(--fit-muted);
+      margin-top: 2px;
+    }
+
+    .slider-card {
+      border-radius: 18px;
+      border: 1px solid #f0e2b3;
+      background: linear-gradient(135deg, #ffffff, #fffaf0);
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .slider-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--fit-muted);
+    }
+
+    .slider-tag {
+      padding: 3px 8px;
+      border-radius: var(--fit-radius-pill);
+      background: #111111;
+      color: #ffffff;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+    }
+
+    .slider {
+      position: relative;
+      border-radius: 14px;
+      overflow: hidden;
+      background: #f4f4f4;
+      height: 200px;
+    }
+
+    .slider-inner {
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+
+    .slide-img {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0.35s ease-out;
+    }
+
+    .slide-img.active {
+      opacity: 1;
+    }
+
+    .slide-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .slider-empty {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: var(--fit-muted);
+    }
+
+    .slider-controls {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 6px;
+      pointer-events: none;
+    }
+
+    .slider-btn {
+      width: 24px;
+      height: 24px;
+      border-radius: 999px;
+      border: 1px solid rgba(0, 0, 0, 0.16);
+      background: rgba(255, 255, 255, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      pointer-events: auto;
+      transition: background var(--fit-transition), transform var(--fit-transition),
+        box-shadow var(--fit-transition);
+    }
+
+    .slider-btn:hover {
+      background: #ffffff;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.16);
+    }
+
+    .dots {
+      position: absolute;
+      bottom: 6px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      pointer-events: none;
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.18);
+      pointer-events: auto;
+    }
+
+    .dot.active {
+      background: #111111;
+      transform: scale(1.2);
+    }
+
+    .add-member-card {
+      border-radius: 18px;
+      border: 1px dashed #e2cf93;
+      background: #fffdf6;
+      padding: 12px 12px 10px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .add-member-text {
+      font-size: 13px;
+      color: #222222;
+    }
+
+    .add-member-text span {
+      color: var(--fit-gold);
+      font-weight: 600;
+    }
+
+    .add-member-btn {
+      border-radius: var(--fit-radius-pill);
+      padding: 8px 15px;
+      border: 1px solid #111111;
+      background: #111111;
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: background var(--fit-transition), color var(--fit-transition),
+        transform var(--fit-transition), box-shadow var(--fit-transition);
+    }
+
+    .add-member-btn span.plus {
+      font-size: 14px;
+    }
+
+    .add-member-btn:hover {
+      background: var(--fit-gold);
+      color: #111111;
+      box-shadow: 0 12px 26px rgba(0, 0, 0, 0.24);
+      transform: translateY(-1px);
+    }
+
+    /* Right: metrics */
+
+    .right-col {
+      padding-left: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .section-title {
+      font-size: 13px;
+      color: var(--fit-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+    }
+
+    .metrics-grid {
+      margin-top: 4px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .metric-card {
+      border-radius: 16px;
+      border: 1px solid #f0f0f0;
+      background: #ffffff;
+      padding: 10px 10px 8px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.04);
+    }
+
+    .metric-card.highlight {
+      border-color: #e2cf93;
+      background: #fffaf2;
+    }
+
+    .metric-label {
+      font-size: 11px;
+      color: var(--fit-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .metric-value {
+      font-size: 20px;
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    .metric-sub {
+      font-size: 11px;
+      color: var(--fit-muted);
+    }
+
+    .metric-value.positive {
+      color: #117a39;
+    }
+
+    .metric-value.warning {
+      color: #b95c12;
+    }
+
+    .metric-value.danger {
+      color: #b32020;
+    }
+
+    @media (max-width: 960px) {
+      .content {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .left-col {
+        border-right: none;
+        border-bottom: 1px solid #f4f4f4;
+        padding-right: 0;
+        padding-bottom: 10px;
+        margin-bottom: 6px;
+      }
+
+      .right-col {
+        padding-left: 0;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 0;
+      }
+
+      .shell {
+        border-radius: 0;
+        box-shadow: none;
+      }
+
+      .metrics-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    /* Modal */
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease-out;
+    }
+
+    .modal-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal {
+      width: 100%;
+      max-width: 420px;
+      border-radius: 22px;
+      background: #ffffff;
+      box-shadow: 0 22px 60px rgba(0, 0, 0, 0.42);
+      padding: 18px 18px 16px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .modal-badge {
+      padding: 4px 10px;
+      border-radius: var(--fit-radius-pill);
+      border: 1px solid #f0e2b3;
+      background: var(--fit-gold-soft);
+      color: #8a6a1b;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      align-self: flex-start;
+    }
+
+    .modal-title {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .modal-body {
+      font-size: 13px;
+      color: var(--fit-muted);
+    }
+
+    .modal-body span {
+      color: var(--fit-gold);
+      font-weight: 600;
+    }
+
+    .modal-code-pill {
+      margin-top: 8px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px dashed #e2cf93;
+      background: #fffdf6;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 13px;
+    }
+
+    .modal-code-pill strong {
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .modal-footer {
+      margin-top: 8px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .modal-note {
+      font-size: 10px;
+      color: var(--fit-muted);
+      flex: 1;
+    }
+
+    .modal-btn {
+      border-radius: var(--fit-radius-pill);
+      padding: 8px 16px;
+      border: 1px solid #111111;
+      background: #111111;
+      color: #ffffff;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: background var(--fit-transition), color var(--fit-transition),
+        transform var(--fit-transition), box-shadow var(--fit-transition);
+    }
+
+    .modal-btn:hover {
+      background: var(--fit-gold);
+      color: #111111;
+      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.24);
+      transform: translateY(-1px);
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="top-bar">
+      <div class="logo">
+        <div class="logo-mark"><span>F</span></div>
+        <div class="logo-text">
+          <strong>FitClub</strong>
+          <span>Gym owner</span>
+        </div>
+      </div>
+      <div class="top-right">
+        <div class="pill-code">
+          Gym code:
+          <span class="code" id="top-gym-code">—</span>
+        </div>
+        <div class="owner-badge">Dashboard</div>
+      </div>
+    </header>
+
+    <main class="content">
+      <section class="left-col">
+        <div class="gym-header">
+          <div class="gym-name" id="gym-name-heading">Your gym</div>
+          <div class="gym-sub" id="gym-sub">Gym profile is live.</div>
+        </div>
+
+        <div class="slider-card">
+          <div class="slider-header">
+            <div>Gym photos</div>
+            <div class="slider-tag">Overview</div>
+          </div>
+          <div class="slider">
+            <div class="slider-inner" id="slider-inner">
+              <div class="slider-empty" id="slider-empty">
+                No photos found. Add them from settings later.
+              </div>
+            </div>
+            <div class="slider-controls" id="slider-controls" style="display:none;">
+              <button type="button" class="slider-btn" id="prev-slide">‹</button>
+              <button type="button" class="slider-btn" id="next-slide">›</button>
+            </div>
+            <div class="dots" id="slider-dots" style="display:none;"></div>
+          </div>
+        </div>
+
+        <div class="add-member-card">
+          <div class="add-member-text">
+            Add a new <span>member</span> and start their plan.
+          </div>
+          <button type="button" class="add-member-btn" id="add-member-btn">
+            <span class="plus">＋</span>
+            Add member
+          </button>
+        </div>
+      </section>
+
+      <section class="right-col">
+        <div class="section-title">Gym numbers</div>
+        <div class="metrics-grid">
+          <div class="metric-card highlight">
+            <div class="metric-label">Total members</div>
+            <div class="metric-value" id="metric-total">0</div>
+            <div class="metric-sub">All time</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-label">Live members</div>
+            <div class="metric-value positive" id="metric-live">0</div>
+            <div class="metric-sub">Active plans</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-label">Expired</div>
+            <div class="metric-value danger" id="metric-expired">0</div>
+            <div class="metric-sub">Need follow-up</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-label">Expiring soon</div>
+            <div class="metric-value warning" id="metric-expiring">0</div>
+            <div class="metric-sub">Next 7 days</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-label">Due amount</div>
+            <div class="metric-value danger" id="metric-due">₹0</div>
+            <div class="metric-sub">Unpaid renewals</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-label">Today collection</div>
+            <div class="metric-value positive" id="metric-today">₹0</div>
+            <div class="metric-sub">Since 12 AM</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-label">Total collection</div>
+            <div class="metric-value" id="metric-total-collection">₹0</div>
+            <div class="metric-sub">Since you joined</div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Unique code modal -->
+  <div class="modal-backdrop" id="code-modal">
+    <div class="modal">
+      <div class="modal-badge">Gym unique code</div>
+      <div class="modal-title">Share this only with your members.</div>
+      <div class="modal-body">
+        Each gym gets a <span>unique code</span>. Members enter this code during signup to join your gym.
+      </div>
+      <div class="modal-code-pill">
+        <div>
+          Your gym code
+        </div>
+        <strong id="modal-gym-code">—</strong>
+      </div>
+      <div class="modal-footer">
+        <div class="modal-note">
+          Keep this code private. Share it only with people who are actually joining your gym.
+        </div>
+        <button type="button" class="modal-btn" id="modal-ok">
+          Got it
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Read basic gym info from localStorage set during onboarding
+    const storedGym = JSON.parse(localStorage.getItem("fitclub_gym_profile") || "{}");
+    const storedCode = storedGym.code || localStorage.getItem("fitclub_gym_code") || "";
+
+    const gymNameHeading = document.getElementById("gym-name-heading");
+    const gymSub = document.getElementById("gym-sub");
+    const summaryOwner = document.getElementById("summary-owner");
+    const summaryGym = document.getElementById("summary-gym");
+    const summaryCity = document.getElementById("summary-city");
+    // summary spans exist only in onboarding, so we ignore them here
+
+    const topGymCode = document.getElementById("top-gym-code");
+    const modalGymCode = document.getElementById("modal-gym-code");
+
+    // Fallback generate a simple code if none saved yet
+    function generateFallbackCode() {
+      const part = Math.random().toString(36).substring(2, 7).toUpperCase();
+      return "FIT-" + part;
+    }
+
+    let gymCode = storedCode || generateFallbackCode();
+    // Save it so next loads use same code
+    localStorage.setItem("fitclub_gym_code", gymCode);
+
+    topGymCode.textContent = gymCode;
+    modalGymCode.textContent = gymCode;
+
+    if (storedGym.gymName) {
+      gymNameHeading.textContent = storedGym.gymName;
+      gymSub.textContent = "Dashboard for " + storedGym.city + " • " + storedGym.country;
+    }
+
+    // Modal logic
+    const modal = document.getElementById("code-modal");
+    const modalOk = document.getElementById("modal-ok");
+
+    function openModal() {
+      modal.classList.add("open");
+    }
+
+    function closeModal() {
+      modal.classList.remove("open");
+    }
+
+    modalOk.addEventListener("click", closeModal);
+
+    window.addEventListener("load", () => {
+      // Show only first time per device/browser
+      const hasSeen = localStorage.getItem("fitclub_seen_code_modal");
+      if (!hasSeen) {
+        openModal();
+        localStorage.setItem("fitclub_seen_code_modal", "1");
+      }
+    });
+
+    // Slider from photos saved in localStorage (base64 list)
+    const sliderInner = document.getElementById("slider-inner");
+    const sliderEmpty = document.getElementById("slider-empty");
+    const sliderControls = document.getElementById("slider-controls");
+    const sliderDots = document.getElementById("slider-dots");
+    const prevSlideBtn = document.getElementById("prev-slide");
+    const nextSlideBtn = document.getElementById("next-slide");
+
+    const storedPhotos = JSON.parse(localStorage.getItem("fitclub_gym_photos") || "[]");
+    let currentSlide = 0;
+
+    function setupSlider() {
+      if (!storedPhotos.length) {
+        sliderEmpty.style.display = "flex";
+        sliderControls.style.display = "none";
+        sliderDots.style.display = "none";
+        return;
+      }
+
+      sliderInner.innerHTML = "";
+      sliderEmpty.style.display = "none";
+      sliderControls.style.display = "flex";
+      sliderDots.style.display = "flex";
+
+      storedPhotos.forEach((dataUrl, index) => {
+        const wrap = document.createElement("div");
+        wrap.className = "slide-img" + (index === 0 ? " active" : "");
+        const img = document.createElement("img");
+        img.src = dataUrl;
+        wrap.appendChild(img);
+        sliderInner.appendChild(wrap);
+
+        const dot = document.createElement("div");
+        dot.className = "dot" + (index === 0 ? " active" : "");
+        dot.addEventListener("click", () => goToSlide(index));
+        sliderDots.appendChild(dot);
+      });
+    }
+
+    function updateSliderUI() {
+      const slides = sliderInner.querySelectorAll(".slide-img");
+      const dots = sliderDots.querySelectorAll(".dot");
+      slides.forEach((slide, index) => {
+        slide.classList.toggle("active", index === currentSlide);
+      });
+      dots.forEach((dot, index) => {
+        dot.classList.toggle("active", index === currentSlide);
+      });
+    }
+
+    function goToSlide(idx) {
+      if (!storedPhotos.length) return;
+      const total = storedPhotos.length;
+      currentSlide = (idx + total) % total;
+      updateSliderUI();
+    }
+
+    prevSlideBtn.addEventListener("click", () => goToSlide(currentSlide - 1));
+    nextSlideBtn.addEventListener("click", () => goToSlide(currentSlide + 1));
+
+    setupSlider();
+
+    // Add member button (route later)
+    const addMemberBtn = document.getElementById("add-member-btn");
+    addMemberBtn.addEventListener("click", () => {
+      // later you can change to owner-add-member.html
+      console.log("Add member clicked");
+    });
+
+    // Dummy metric values for now (you will replace with real data)
+    document.getElementById("metric-total").textContent = storedGym.totalMembers || 0;
+    document.getElementById("metric-live").textContent = storedGym.liveMembers || 0;
+    document.getElementById("metric-expired").textContent = storedGym.expiredMembers || 0;
+    document.getElementById("metric-expiring").textContent = storedGym.expiringSoon || 0;
+    document.getElementById("metric-due").textContent = storedGym.dueAmount || "₹0";
+    document.getElementById("metric-today").textContent = storedGym.todayCollection || "₹0";
+    document.getElementById("metric-total-collection").textContent =
+      storedGym.totalCollection || "₹0";
+  </script>
+</body>
+</html>
